@@ -1,8 +1,11 @@
-# cpuperf
+<div align="center">
+  <img alt="boring font logo" src="assets/logo.svg" width="55%">
+  <p><sub>You can't optimize what you don't understand.</sub></p>
+</div>
 
-Inspect CPU to understand its capabilities and make better performance decisions.
+---
 
-`cpuperf` aims to prioritize the information that actually matters for performance engineering 
+`cpuperf` aims to prioritize the information that actually matters for performance engineering.
 
 The idea is simple: **understand the hardware before trying to optimize for it.**
 
