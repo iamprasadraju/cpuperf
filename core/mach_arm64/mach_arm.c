@@ -1,4 +1,4 @@
-#include "mac.h"
+#include "mach_arm.h"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -24,9 +24,13 @@ int get_cpuinfo(CpuInfo *info) {
   GET_SYSCTL("hw.memsize", info->ram);
   GET_SYSCTL("hw.machine", info->arch);
   GET_SYSCTL("hw.cachelinesize", info->cachelinesize);
+  GET_SYSCTL("hw.perflevel0.name", info->perflvl0);
+  GET_SYSCTL("hw.perflevel0.physicalcpu", info->perflvl0pcpu);
   GET_SYSCTL("hw.perflevel0.l1icachesize", info->p0l1icache);
   GET_SYSCTL("hw.perflevel0.l1dcachesize", info->p0l1dcache);
   GET_SYSCTL("hw.perflevel0.l2cachesize", info->p0l2cache);
+  GET_SYSCTL("hw.perflevel1.name", info->perflvl1);
+  GET_SYSCTL("hw.perflevel1.physicalcpu", info->perflvl1pcpu);
   GET_SYSCTL("hw.perflevel1.l1icachesize", info->p1l1icache);
   GET_SYSCTL("hw.perflevel1.l1dcachesize", info->p1l1dcache);
   GET_SYSCTL("hw.perflevel1.l2cachesize", info->p1l2cache);

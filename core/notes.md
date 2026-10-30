@@ -7,7 +7,7 @@ nm -gu main.dylib
 
 * compile to dylib on mac
 ```bash
-gcc -dynamiclib main.c -o main.dylibb
+gcc -dynamiclib main.c -o main.dylib
 ```
 
 * All hardware descriptions

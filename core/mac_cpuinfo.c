@@ -1,4 +1,4 @@
-#include "mac.h"
+#include "mach_arm.h"
 #include <stdint.h>
 #include <stdio.h>
 
@@ -13,12 +13,14 @@ int main() {
     printf("RAM: %llu bytes\n", cpu.ram);
     printf("Cache line size: %llu bytes\n", cpu.cachelinesize);
 
-    printf("\nperfomance lvl0 cache \n--------------------------\n");
+    printf("\nperfomance lvl0: %s \n--------------------------\n", cpu.perflvl0);
+    printf("%s Cores: %d\n", cpu.perflvl0, cpu.perflvl0pcpu);
     printf("Perflevel0.L1 I cache: %llu bytes\n", cpu.p0l1icache);
     printf("Perflevel0.L1 D cache: %llu bytes\n", cpu.p0l1dcache);
     printf("Perflevel0.L2 cache: %llu bytes\n", cpu.p0l2cache);
     
-    printf("\nperfomance lvl1 cache \n--------------------------\n");
+    printf("\nperfomance lvl1: %s\n--------------------------\n", cpu.perflvl1);
+    printf("%s Cores: %d\n", cpu.perflvl1, cpu.perflvl1pcpu);
     printf("Perflevel1.L1 I cache: %llu bytes\n", cpu.p1l1icache);
     printf("Perflevel1.L1 D cache: %llu bytes\n", cpu.p1l1dcache);
     printf("Perflevel1.L2 cache: %llu bytes\n\n", cpu.p1l2cache);   
