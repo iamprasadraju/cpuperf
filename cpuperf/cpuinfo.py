@@ -1,5 +1,5 @@
 import ctypes
-from util.helpers import cfprint
+from util.helpers import cfprint, bytes2gb, bytes2kb, bytes2mb
 
 class CpuInfo(ctypes.Structure):
     _fields_ = [
@@ -52,6 +52,12 @@ cpuinfo_tabel = {
 
 #print(cpuinfo_tabel)
 for attr, value in cpuinfo_tabel.items():
+  if (attr == "Physical RAM"):
+    value = bytes2gb(value)
+  elif ("cache" and "L1" in attr):
+    value = bytes2kb(value)
+  elif ("L2" in attr):
+    value = bytes2mb(value)
   cfprint(attr, value)
 
 """
