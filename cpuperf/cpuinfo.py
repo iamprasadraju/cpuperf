@@ -1,5 +1,5 @@
 import ctypes
-from util.helpers import cfprint, bytes2gb, bytes2kb, bytes2mb
+from utils.helpers import cfprint, bytes2gb, bytes2kb, bytes2mb
 
 class CpuInfo(ctypes.Structure):
     _fields_ = [
@@ -22,15 +22,21 @@ class CpuInfo(ctypes.Structure):
         ("p1l2cache", ctypes.c_uint64),
     ]
 
-# dylib_path = os.path.abspath("/Users/jarvis/repos/cpuperf/core/main.dylib")
-dylib_path = "./core/mach_arm64/mach_arm.dylib"
-lib = ctypes.CDLL(dylib_path)
-lib.get_cpuinfo.argtypes = [ctypes.POINTER(CpuInfo)]
-lib.get_cpuinfo.restype = ctypes.c_int
 
-cpu = CpuInfo()  # Allocate structure; C initializes its contents
+def get_cpuinfo():
+  cpuinfo = CpuInfo()  # Allocate structure; C initializes its contents
+  
+  # dylib_path = os.path.abspath("/Users/jarvis/repos/cpuperf/core/main.dylib")
+  dylib_path = "./core/mach_arm64/mach_arm.dylib"
+  lib = ctypes.CDLL(dylib_path)
+  lib.get_cpuinfo.argtypes = [ctypes.POINTER(CpuInfo)]
+  lib.get_cpuinfo.restype = ctypes.c_int
+  lib.get_cpuinfo(ctypes.byref(cpuinfo))
+  return cpuinfo
 
-result = lib.get_cpuinfo(ctypes.byref(cpu))
+
+cpu = get_cpuinfo()
+
 cpuinfo_tabel = {
   "Chip": cpu.chip_name.decode(),
   "Architecture": cpu.arch.decode(), # bytestring to str
@@ -50,15 +56,18 @@ cpuinfo_tabel = {
   "Perflevel1.L2cache": cpu.p1l2cache,
 }
 
-#print(cpuinfo_tabel)
-for attr, value in cpuinfo_tabel.items():
-  if (attr == "Physical RAM"):
-    value = bytes2gb(value)
-  elif ("cache" and "L1" in attr):
-    value = bytes2kb(value)
-  elif ("L2" in attr):
-    value = bytes2mb(value)
-  cfprint(attr, value)
+
+
+if __name__ == "__main__":
+  #print(cpuinfo_tabel)
+  for attr, value in cpuinfo_tabel.items():
+    if (attr == "Physical RAM"):
+      value = bytes2gb(value)
+    elif ("cache" and "L1" in attr):
+      value = bytes2kb(value)
+    elif ("L2" in attr):
+      value = bytes2mb(value)
+    cfprint(attr, value)
 
 """
 if result == 0:
