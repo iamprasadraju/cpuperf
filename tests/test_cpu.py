@@ -1,9 +1,10 @@
 import subprocess
 import unittest
-from cpuperf.cpuinfo import get_cpuinfo
-from tests.helpers import parse_cpuinfo
+from cpuperf.cpuinfo import get_cpuinfo, cpuinfo_by_name
+from tests.helpers import parse_info
 
-cpu_fields = [
+# true values
+systcl_cpu_fields = [
   "machdep.cpu.brand_string", 
   "hw.machine", 
   "hw.ncpu", 
@@ -16,7 +17,8 @@ cpu_fields = [
 
 sysctl_cmd = ["sysctl", "-n"]
 
-test_fields = [
+# test values
+cpuperf_cpu_fields = [
   "chip_name", 
   "arch", 
   "cores", 
@@ -30,22 +32,15 @@ test_fields = [
 class CpuInfoTest(unittest.TestCase):
   def setUp(self) -> None:
     # cpuinfo from cmd using systctl cli (consider as true values)
-    result = subprocess.run(sysctl_cmd + cpu_fields, capture_output=True, text=True)
-    cpuinfo = result.stdout.strip().split("\n")
-    
-    self.cleaned_cpuinfo = [parse_cpuinfo(val) for val in cpuinfo]
+    result = subprocess.run(sysctl_cmd + systcl_cpu_fields, capture_output=True, text=True)
+    acpuinfo = result.stdout.strip().split("\n") # acpuinfo - actual cpuinfo
+    self.parsed_acpuinfo = [parse_info(val) for val in acpuinfo]
 
     # cpuinfo from cpuperf
-    cpu = get_cpuinfo()
-    self.test_cpuinfo = []
+    cpuinfo = get_cpuinfo() # tcpuinof - cpuinfo for testing
+    self.tcpuinfo = cpuinfo_by_name(cpuinfo, fields=cpuperf_cpu_fields)
     
-    for field in test_fields:
-      value = getattr(cpu, field)
-      if isinstance(value, bytes):
-        value = value.decode()
-      self.test_cpuinfo.append(value)
-    
-  def test_allcpufields(self): self.assertListEqual(self.cleaned_cpuinfo, self.test_cpuinfo)
+  def test_allcpu_fields(self): self.assertListEqual(self.parsed_acpuinfo, self.tcpuinfo)
 
 if __name__ == "__main__":
   unittest.main()
