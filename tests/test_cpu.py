@@ -13,7 +13,6 @@ systcl_cpu_fields = [
   "hw.perflevel0.physicalcpu",
   "hw.perflevel1.name",
   "hw.perflevel1.physicalcpu"
-  ""
 ]
 
 sysctl_cmd = ["sysctl", "-n"]

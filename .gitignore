@@ -2,7 +2,6 @@
 *.dylib
 *.s
 __pycache__/
-uv.lock
-
-
+build/
+.cache
 

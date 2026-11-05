@@ -27,7 +27,7 @@ def get_cpuinfo(parse: bool = True) -> dict | CpuInfo:
   cpuinfo = CpuInfo()  # Allocate structure; C initializes its contents
   
   # dylib_path = os.path.abspath("/Users/jarvis/repos/cpuperf/core/main.dylib")
-  dylib_path = "./core/mach_arm64/mach_arm.dylib"
+  dylib_path = "./build/libmac_arm.dylib"
   if not os.path.exists(dylib_path):
     raise FileNotFoundError(f"Library not found at {dylib_path}")
 

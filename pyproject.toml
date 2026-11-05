@@ -1,7 +1,12 @@
+
+[build-system]
+requires = ["meson-python", "meson", "ninja"]
+build-backend = "mesonpy"
+
 [project]
 name = "cpuperf"
 version = "0.1.0"
-3description = "Add your description here"
+description = "CPU inspection and performance engineering toolkit"
 readme = "README.md"
 authors = [
     { name = "iamprasadraju", email = "gls.prasadraju@gmail.com" }
@@ -9,16 +14,41 @@ authors = [
 requires-python = ">=3.11"
 dependencies = []
 
-
 [dependency-groups]
 build = [
     "meson",
+    "ninja",
 ]
 
+dev = [
+    "ruff",
+    "prek",
+]
 
-#[project.scripts]
-#cpuperf = "cpuperf:main"
+[tool.ruff]
+preview = true
+include = ["cpuperf/**/*.py", "tests/**/*.py"]
+target-version = "py311"
+indent-width = 2
+exclude = [".git"]
 
-#[build-system]
-#requires = ["uv_build>=0.13.1,<0.14.0"]
-#build-backend = "uv_build"
+[tool.ruff.lint]
+select = [
+    "E4",
+    "E7",
+    "E9",
+    "F",
+    "I",
+    "UP",
+    "B",
+    "SIM",
+    "RUF",
+]
+ignore = [
+    "E701",
+    "E702",
+]
+
+[tool.ruff.format]
+indent-style = "space"
+quote-style = "double"
