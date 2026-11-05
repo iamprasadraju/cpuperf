@@ -1,8 +1,8 @@
-#include "mach_arm.h"
+#include "macos/mac_arm64/mac_arm.h"
 #include <stdint.h>
 #include <stdio.h>
 
-int main() {
+int main(void) {
   CpuInfo cpu;
   if (get_cpuinfo(&cpu) == 0){
     printf("Chip: %s\n", cpu.chip_name);
