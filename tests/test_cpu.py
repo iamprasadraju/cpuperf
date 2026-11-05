@@ -8,11 +8,12 @@ systcl_cpu_fields = [
   "machdep.cpu.brand_string", 
   "hw.machine", 
   "hw.ncpu", 
-  "hw.logicalcpu", 
+  "hw.logicalcpu",
   "hw.perflevel0.name", 
   "hw.perflevel0.physicalcpu",
   "hw.perflevel1.name",
   "hw.perflevel1.physicalcpu"
+  ""
 ]
 
 sysctl_cmd = ["sysctl", "-n"]
