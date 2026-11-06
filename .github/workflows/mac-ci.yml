@@ -1,8 +1,9 @@
 name: CI
 on: [push, pull_request]
+
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
 
     steps:
       - name: Check out repository
@@ -12,14 +13,15 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-          
+          python-version: '3.12'
+
       - name: Install build dependencies
-        run: uv sync --all-groups
+        run: uv sync --all-groups --no-install-project
 
       - name: Build native library with Meson
         run: |
           uv run meson setup build
           uv run meson compile -C build
 
-      - name: run unittests
+      - name: Run unittests
         run: uv run --frozen python -m unittest discover -s tests
