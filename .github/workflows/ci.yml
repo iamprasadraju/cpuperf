@@ -1,0 +1,25 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          
+      - name: Install build dependencies
+        run: uv sync --all-groups
+
+      - name: Build native library with Meson
+        run: |
+          uv run meson setup build
+          uv run meson compile -C build
+
+      - name: run unittests
+        run: uv run --frozen python -m unittest discover -s tests
